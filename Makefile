@@ -1,6 +1,11 @@
 CFLAGS=-std=c11 -g -static
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o)
 
-kcc: kcc.c
+kcc: $(OBJS)
+	$(CC) -o kcc $(OBJS) $(LDFLAGS)
+
+$(OBJS): kcc.h
 
 test: kcc
 	./test.sh
