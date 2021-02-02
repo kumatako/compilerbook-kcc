@@ -33,7 +33,6 @@ typedef enum {
 } NodeKind;
 
 typedef struct Node Node;
-
 struct Node {
 	NodeKind kind;
 	Node *lhs;
@@ -43,6 +42,16 @@ struct Node {
 };
 
 Node *code[100];
+
+typedef struct LVar LVar;
+struct LVar {
+	LVar *next;
+	char *name;
+	int len;
+	int offset;
+};
+
+LVar *locals;
 
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
