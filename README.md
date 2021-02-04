@@ -4,6 +4,7 @@
 ## 文法
 	program		= statement*
 	statement	= expr ";"
+				| "return" expr ";"
 	expr		= assign
 	assign		= equality ("=" assign)?
 	equality	= relational ("==" relational | "!=" relational)*

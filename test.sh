@@ -36,5 +36,7 @@ assert 2 "a=1; 1+1;"
 assert 3 "a=3; a;"
 assert 7 "a=1; b=a+1; c=a+b+1; a+b+c;"
 assert 3 "foo=1; bar=3; foo*bar;"
+assert 3 "return 1+2;"
+assert 1 "return 1; return 2;"
 
 echo OK
