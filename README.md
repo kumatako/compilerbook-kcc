@@ -4,6 +4,7 @@
 ## 文法
 	program		= statement*
 	statement	= expr ";"
+				| "if" "(" expr ")" statement ("else" statement)?
 				| "return" expr ";"
 	expr		= assign
 	assign		= equality ("=" assign)?

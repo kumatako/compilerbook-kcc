@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "kcc.h"
 
+int numberOfLabel=0;
+
 void gen_lval(Node *node) {
 	if (node->kind != ND_LVAR) {
 		error("代入の左辺値が変数ではありません");
@@ -13,6 +15,7 @@ void gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
+	int nol;
 	switch(node->kind) {
 		case ND_NUM:
 			printf("  push %d\n", node->val);
@@ -38,6 +41,16 @@ void gen(Node *node) {
 			printf("  mov rsp, rbp\n");
 			printf("  pop rbp\n");
 			printf("  ret\n");
+			return;
+		case ND_IF:
+			nol=numberOfLabel;
+			numberOfLabel++;
+			gen(node->cond);
+			printf("  pop rax\n");
+			printf("  cmp rax, 0\n");
+			printf("  je .Lend%03d\n", nol);
+			gen(node->then);
+			printf(".Lend%03d:\n",nol);
 			return;
 	}
 	

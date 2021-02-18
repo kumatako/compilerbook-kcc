@@ -137,9 +137,16 @@ Token *tokenize(char *p) {
 			continue;
 		}
 		
+		if(strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
+			cur = new_token(TK_IF, cur, p, 2);
+			p += 2;
+			continue;
+		}
+		
 		char *ident=p;
 		int ident_count=0;
-		while(('a' <= *ident && *ident <= 'z') || ('A' <= *ident && *ident <= 'Z')) {
+		while(('a' <= *ident && *ident <= 'z') || 
+			('A' <= *ident && *ident <= 'Z')) {
 			ident_count++;
 			ident++;
 		}
@@ -204,6 +211,16 @@ void program() {
 
 Node *statement() {
 	Node *node;
+	
+	if(consume_tokenKind(TK_IF)) {
+		node = calloc(1, sizeof(Node));
+		node->kind = ND_IF;
+		expect("(");
+		node->cond = expr();
+		expect(")");
+		node->then = statement();
+		return node;
+	}
 	
 	if (consume_tokenKind(TK_RETURN)) {
 		node = calloc(1, sizeof(Node));
